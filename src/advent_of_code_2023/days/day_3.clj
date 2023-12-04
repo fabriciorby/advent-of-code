@@ -7,9 +7,6 @@
 (defn is-symbol? [char]
   (if (every? #(not= char %) '(\% \/ \$ \& \* \@ \# \+ \- \=)) false true))
 
-(defn is-dot? [char]
-  (= char \.))
-
 (defn is-not-digit? [char]
   (not (Character/isDigit char)))
 
@@ -41,27 +38,30 @@
     (+ (Integer/parseInt (first acc)) (last acc))
     (last acc)))
 
+(defn replace-acc [acc item]
+  (conj (list (last acc)) (str (first acc) item))
+  )
+
+(defn replace-sum [acc i j input]
+  (conj (list (sum-values acc i j input)) "")
+  )
+
 (defn calculate
   ([input]
    (calculate 0 0 input '("" 0)))
   ([i j input acc]
-   (let [line (nth input j)]
+   (let [line (nth input j) item (nth line i)]
      (if (= i (- (count line) 1))
        (if (= j (- (count input) 1))
          (last acc)
-         (if (is-not-digit? (nth line i))
-           (recur 0 (inc j) input (conj (list (sum-values acc i j input)) ""))
-           (recur 0 (inc j) input (conj (list (sum-values (conj (list (last acc)) (str (first acc) (nth line i))) i j input)) ""))))
-       (if (is-not-digit? (nth line i))
-         (if (is-symbol? (nth line i))
-           (if (= (first acc) "")
-             (recur (inc i) j input acc)
-             (recur (inc i) j input (conj (list (sum-values acc i j input)) "")))
-           (if (is-dot? (nth line i))
-             (if (= (first acc) "")
-               (recur (inc i) j input acc)
-               (recur (inc i) j input (conj (list (sum-values acc i j input)) "")))))
-         (recur (inc i) j input (conj (list (last acc)) (str (first acc) (nth line i)))))))))
+         (if (is-not-digit? item)
+           (recur 0 (inc j) input (replace-sum acc i j input))
+           (recur 0 (inc j) input (replace-sum (replace-acc acc item) i j input))))
+       (if (is-not-digit? item)
+         (if (= (first acc) "")
+           (recur (inc i) j input acc)
+           (recur (inc i) j input (replace-sum acc i j input)))
+         (recur (inc i) j input (replace-acc acc item)))))))
 
 (defn -main []
   (let [lines (helper/get-lines "day-3.txt")]
