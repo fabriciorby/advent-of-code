@@ -9,7 +9,7 @@
 
 (defn get-points [items]
   (let [size (count items)]
-    (if (> size 0) (reduce * (repeat (dec (count items)) 2)) 0)
+    (if (> size 0) (reduce * (repeat (dec size) 2)) 0)
     )
   )
 
@@ -21,7 +21,7 @@
     )
   )
 
-(defn get-sum [card copies index]
+(defn update-sum [card copies index]
   (map + (nthrest copies (inc index)) (generate-sum-list card copies (inc index)))
   )
 
@@ -32,7 +32,7 @@
    (let [card (nth cards index)]
      (if (= index (dec (count cards)))
        copies
-       (get-copies cards (concat (take (inc index) copies) (get-sum card copies index)) (inc index)))))
+       (get-copies cards (concat (take (inc index) copies) (update-sum card copies index)) (inc index)))))
   )
 
 (defn parse [line] (map split-and-parse-int (str/split (str/trim (last (str/split line #":"))) #" \| ")))
