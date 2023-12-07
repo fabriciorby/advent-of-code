@@ -4,7 +4,6 @@
 
 
 (def cards "23456789TJQKA")
-(def ranks '("Maior" "Dupla" "Duas Duplas" "Tripla" "Full House" "Quadrupla" "Quintupla"))
 
 (defn parse [lines] (str/split lines #"\s+"))
 
@@ -42,18 +41,38 @@
 (defn eval-hands [input]
    (map #(assoc
            (assoc
-             (eval-hand (map eval-card (first %)))
+             (eval-hand (eval-cards (first %)))
              :bid (Integer/parseInt (second %)))
            :hand (eval-cards (first %))) input)
   )
 
-(defn print-hands [hands]
-  (map #(assoc % :rank (nth ranks (:rank %))) hands)
+(defn replace-high-card-with-joker [hand]
+  (if (= "JJJJJ" hand)
+    hand
+    (let [high-card (apply max-key val (dissoc (frequencies hand) \J))]
+      (str/replace hand #"J" (str (key high-card)))
+      )
+    )
+  )
+
+(def cards-2 "J23456789TQKA")
+
+(defn eval-card-2 [card] (str/index-of cards-2 card))
+
+(defn eval-cards-2 [cards] (mapv eval-card-2 cards))
+
+(defn eval-hands-2 [input]
+  (map #(assoc
+          (assoc
+            (eval-hand (eval-cards (replace-high-card-with-joker (first %))))
+            :bid (Integer/parseInt (second %)))
+          :hand (eval-cards-2 (first %))) input)
   )
 
 (defn -main []
   (let [lines (helper/get-lines "day-7.txt")
         input (map parse lines)]
-    (reduce + (map-indexed #(* (inc %1) (:bid %2)) ((comp sort-hands eval-hands) input)))
+    (println (reduce + (map-indexed #(* (inc %1) (:bid %2)) (sort-hands (eval-hands input)))))
+    (println (reduce + (map-indexed #(* (inc %1) (:bid %2)) (sort-hands (eval-hands-2 input)))))
     )
   )
