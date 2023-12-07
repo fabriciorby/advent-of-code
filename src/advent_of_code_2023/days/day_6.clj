@@ -28,7 +28,7 @@
   (let [lines (helper/get-lines "day-6.txt")
         parsed-input (parse lines)
         parsed-input-2 (parse-2 lines)]
-    (reduce * (map calculate (:times parsed-input) (:distances parsed-input)))
-    (calculate (:time parsed-input-2) (:distance parsed-input-2))
+    (println (reduce * (map calculate (:times parsed-input) (:distances parsed-input))))
+    (println (calculate (:time parsed-input-2) (:distance parsed-input-2)))
     )
   )
