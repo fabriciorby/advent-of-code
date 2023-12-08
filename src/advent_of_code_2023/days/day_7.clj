@@ -2,14 +2,9 @@
   (:require [advent-of-code-2023.core :as helper]
             [clojure.string :as str]))
 
-
-(def cards "23456789TJQKA")
-
 (defn parse [lines] (str/split lines #"\s+"))
 
-(defn eval-card [card] (str/index-of cards card))
-
-(defn eval-cards [cards] (mapv eval-card cards))
+(defn eval-cards [cards] (mapv #(str/index-of "23456789TJQKA" %) cards))
 
 (defn eval-hand
   ([hand]
@@ -55,11 +50,7 @@
     )
   )
 
-(def cards-2 "J23456789TQKA")
-
-(defn eval-card-2 [card] (str/index-of cards-2 card))
-
-(defn eval-cards-2 [cards] (mapv eval-card-2 cards))
+(defn eval-cards-2 [cards] (mapv #(str/index-of "J23456789TQKA" %) cards))
 
 (defn eval-hands-2 [input]
   (map #(assoc
