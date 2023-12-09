@@ -14,34 +14,35 @@
 
 (defn go-your-own-way
   ([input]
-   (go-your-own-way (:directions input) (:decisions input) "AAA" 0))
-  ([directions decisions current steps]
-   (if (= current "ZZZ")
+   (go-your-own-way (:directions input) (:decisions input) "AAA" #(= "ZZZ" %) 0))
+  ([input start]
+   (go-your-own-way (:directions input) (:decisions input) start #(= "ZZZ" %) 0))
+  ([input start end]
+   (go-your-own-way (:directions input) (:decisions input) start end 0))
+  ([directions decisions current end steps]
+   (if (end current)
      steps
      (let [[next & remaining] directions]
-       (recur remaining decisions (get (get decisions current) next) (inc steps))
+       (recur remaining decisions (get (get decisions current) next) end (inc steps))
        ))
    )
   )
 
+(defn gcd [a b] (if (= 0 b) a (recur b (mod a b))))
+(defn lcm [a b] (/ (* a b) (gcd a b)))
+
+(defn ends-with-z? [word] (str/ends-with? word "Z"))
+
 (defn ghost-your-own-way
   ([input]
    (let [starting-points (filter #(str/ends-with? % "A") (keys (:decisions input)))]
-     (ghost-your-own-way (:directions input) (:decisions input) starting-points 0)))
-  ([directions decisions current steps]
-   (if (every? #(str/ends-with? % "Z") current)
-     steps
-     (let [[next & remaining] directions]
-       (if (= (rem (inc steps) 1000000) 0) (println (inc steps)))
-       (recur remaining decisions (doall (map #(get (get decisions %) next) current)) (inc steps))
-       ))
-   )
-  )
+     (reduce lcm (map #(go-your-own-way input % ends-with-z?) starting-points))
+     )))
 
 (defn -main []
   (let [lines (get-lines "day-8.txt")
         input (parse lines)]
     (println (go-your-own-way input))
-    (println (ghost-your-own-way input))                    ;brute too strong never finishes
+    (println (ghost-your-own-way input))
     )
   )
