@@ -30,8 +30,8 @@
     (if (and (>= x 0) (>= y 0) (<= y (dec n-rows)) (<= x (dec n-cols)))
       (aget i-map y x) nil)))
 
-
 (defn find-start-position
+  "Returns the start position S as '(x y)"
   ([i-map]
    (find-start-position i-map '(0 0)))
   ([i-map current]
@@ -56,28 +56,81 @@
   )
 
 (defn follow-the-tube
+  "Returns a list:
+   first element is the ordered points following the main tube '((x1 y1) (x2 y2) ...)
+   second element is a set with unordered points following the main tube #{(x3 y3) (x1 y1) ...}"
   ([i-map]
    (let [start-pos (find-start-position i-map)
          {directions \S} directions-rules
          next-step (get-next-step i-map directions start-pos start-pos)]
-     (follow-the-tube i-map next-step (list start-pos))
-     )
-   )
+     (follow-the-tube i-map next-step (list start-pos))))
   ([i-map current steps]
    (let [[last-pos] steps
          [_ char pos] current
          {directions char} directions-rules
          next-step (get-next-step i-map directions pos last-pos)]
      (if (= (second next-step) \S)
-       (conj steps pos)
-       (recur i-map next-step (conj steps pos))
-       )
-     )
-   )
+       (list (conj steps pos) (set (conj steps pos)))
+       (recur i-map next-step (conj steps pos)))))
+  )
+
+(defn between [p a b]
+  (or (and (>= p a) (<= p b)) (and (<= p a) (>= p b))))
+
+(defn ray-cast [point tubes]
+    (loop [tubes tubes
+           [ax ay] (last tubes)
+           [bx by] (first tubes)
+           [px py :as point] point
+           inside false]
+      (cond
+        (nil? bx) inside
+        (or (and (= px ax) (= py ay)) (and (= px bx) (= py by))) false
+        (and (= ay by) (= py ay) (between px ax bx)) false
+        (between py, ay, by)
+        (if (or (and (= py ay) (>= by ay)) (and (= py by) (>= ay by)))
+          (recur (rest tubes) (first tubes) (second tubes) point inside)
+          (let [c (- (* (- ax px) (- by py)) (* (- bx px) (- ay py)))]
+            (if (= c 0)
+              false
+              (if (= (< ay by) (> c 0))
+                (recur (rest tubes) (first tubes) (second tubes) point (not inside))
+                (recur (rest tubes) (first tubes) (second tubes) point inside)))
+            ))
+        :else (recur (rest tubes) (first tubes) (second tubes) point inside)
+        )
+      )
+    )
+
+(defn remove-and-get-garbage
+  "Return a list:
+      first element is a new map only with the main tube and the second are the remaining spaces are dots
+      second element is a list of dots as '(x y)"
+  ([i-map tubes]
+   (remove-and-get-garbage i-map '(0 0) tubes []))
+  ([i-map current polygon dot-list]
+   (let [[x y] current]
+     (if (>= y (alength i-map))
+       dot-list
+       (if (get-item current i-map)
+         ;performance for checking in set was (as expected) way better than in list (40x faster)
+         ;Elapsed time: 966.386704 msecs
+         ;Elapsed time: 38781.53955 msecs
+         (if (polygon current)
+           (recur i-map (list (inc x) y) polygon dot-list)
+           (recur i-map (list (inc x) y) polygon (conj dot-list current)))
+         (recur i-map (list 0 (inc y)) polygon dot-list)))))
   )
 
 (defn -main []
-  (let [input (to-array-2d (get-lines "day-10.txt"))]
-    (/ (count (follow-the-tube input)) 2)
+  (time
+    (let [input (to-array-2d (get-lines "day-10.txt"))
+          [tubes tubes-set] (follow-the-tube input)
+          all-dots (remove-and-get-garbage input tubes-set)]
+      (println (/ (count tubes-set) 2))                     ;part 1
+      (println (count (filter true? (map-indexed #(ray-cast %2 tubes) all-dots)))) ;part 2
+      ;it's possible to optimize the algorithm applying flood fill instead of checking every dot,
+      ;but I am not going to do it
+      )
     )
   )
