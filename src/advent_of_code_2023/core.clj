@@ -48,3 +48,6 @@
      )
    )
   )
+
+(defn transpose [m]
+  (apply mapv vector m))
