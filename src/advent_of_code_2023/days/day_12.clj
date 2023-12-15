@@ -8,28 +8,31 @@
     (list springs separations))
   )
 
-(comment
-  (defn calculate-all
-    ([points]
-     (calculate-all points 0))
-    ([[first & tail] i]
-     (if (not-empty tail)
-       (recur tail (reduce #(+ %1 (calculate-distance first %2)) i tail))
-       i))
-    )
+(defn all-possibilities
+  ([springs]
+   (map str/join (partition (count springs) (all-possibilities springs []))))
+  ([[spring & remaining] acc]
+   (if (nil? spring)
+     acc
+     (if (= \? spring)
+       (flatten (vector
+                  (all-possibilities remaining (conj acc \.))
+                  (all-possibilities remaining (conj acc \#))))
+       (vector (all-possibilities remaining (conj acc spring)))
+       )
+     ))
   )
 
-(defn calculate-fitness [[spring separations]]
-  (loop [[separation & remaining] separations
-         sublist ()]
-    (recur remaining sublist)
-    )
-  spring
+(defn valid [possibility separations]
+
+  ;; check with regex (no internet) :'(
+
   )
 
 (defn -main []
   (let [input (get-lines "day-12-example.txt")
-        parsed (map parse input)]
-    (map calculate-fitness parsed)
+        parsed (mapv parse input)]
+    ;(map all-possibilities parsed)
+    (all-possibilities (first (last parsed)))
     )
   )
