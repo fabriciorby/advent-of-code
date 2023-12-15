@@ -1,8 +1,9 @@
 (ns advent-of-code-2023.days.day-11
   (:use [advent-of-code-2023.core]))
 
-(defn index-to-expand [i-map]
+(defn index-to-expand
   "Receives a matrix and returns a vector with indexes to expand"
+  [i-map]
   (loop [acc []
          [line & remaining] i-map
          i 0]
