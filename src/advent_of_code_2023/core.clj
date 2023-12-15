@@ -8,6 +8,9 @@
     (doall (line-seq reader)))
   )
 
+(defn split-with-exclusive [pred coll]
+  [(take-while pred coll) (rest (drop-while pred coll))])
+
 (comment "Matrix Helpers Below")
 
 (defn get-item
