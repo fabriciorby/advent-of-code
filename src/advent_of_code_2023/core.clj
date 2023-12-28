@@ -54,3 +54,10 @@
 
 (defn transpose [m]
   (apply mapv vector m))
+
+(comment "Collection Helpers")
+
+(defn in?
+  "Returns true if collection contains element"
+  [coll element]
+  (some #(= element %) coll))

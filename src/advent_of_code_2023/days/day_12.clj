@@ -4,51 +4,45 @@
 
 (defn parse [input]
   (let [[springs separations] (str/split input #"\s+")
-        separations (str/split separations #",")]
+        separations (map #(Integer/parseInt %) (str/split separations #","))]
     (list springs separations))
   )
 
-(defn is-valid? [possibility separations]
-  (let [regex
-        (re-pattern
-          (str "(\\.+)?" (str/join "(\\.+)" (map #(str "(#){" % "}") separations)) "(\\.+)?")
-          )]
-    (if-let [[result] (re-matches regex possibility)]
-      (if (= result possibility) true false)
-      false
-      )
-    )
-  )
-
-(defn valid-possibilities [possibilities separation]
-  (count (filter true? (map #(is-valid? % separation) possibilities)))
-  )
-
-(defn all-possibilities
+(defn count-possibilities
   ([[springs separations]]
-   (println "All possibilities for" springs "and separation" separations)
-   (valid-possibilities (map str/join (partition (count springs) (all-possibilities springs []))) separations))
-  ([[spring & remaining] acc]
-   (if (nil? spring)
-     acc
-     (if (= \? spring)
-       (flatten (vector
-                  (all-possibilities remaining (conj acc \.))
-                  (all-possibilities remaining (conj acc \#))))
-       (flatten (vector (all-possibilities remaining (conj acc spring))))
-       )
-     ))
+   (count-possibilities springs separations))
+  ([[spring & remaining :as springs] [separation :as separations]]
+   (cond
+     (nil? spring) (if (empty? separations) 1 0)
+     (empty? separations) (if (in? springs \#) 0 1)
+     :else
+     (+
+        (if (or (= \? spring) (= \. spring))
+          (count-possibilities remaining separations) 0)
+        (if (and
+              (or (= \? spring) (= \# spring))
+              (and
+                (<= separation (count springs))
+                (not (in? (take separation springs) \.))
+                (or
+                  (= separation (count springs))
+                  (not= (nth springs separation) \#))))
+          (count-possibilities (drop separation remaining) (rest separations)) 0)
+        )
+     )
+   )
   )
 
 (defn part-2 [parsed]
-  (map #(list (str/join "?" (repeat 5 (first %))) (flatten (repeat 5 (last %)))) parsed)
-  )
+  (map #(list (str/join "?" (repeat 5 (first %))) (flatten (repeat 5 (last %)))) parsed))
+
+(alter-var-root #'count-possibilities memoize)              ;caralhoooowww
 
 (defn -main []
-  (let [input (get-lines "day-12-example.txt")
+  (let [input (get-lines "day-12.txt")
         parsed (mapv parse input)
         parsed-2 (part-2 parsed)]
-    (println (reduce + (map all-possibilities parsed)))
-    (println (reduce + (map all-possibilities parsed-2)))
+    (println (reduce + (map count-possibilities parsed)))
+    (println (reduce + (map count-possibilities parsed-2)))
     )
   )
