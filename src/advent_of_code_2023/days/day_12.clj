@@ -40,8 +40,15 @@
      ))
   )
 
+(defn part-2 [parsed]
+  (map #(list (str/join "?" (repeat 5 (first %))) (flatten (repeat 5 (last %)))) parsed)
+  )
+
 (defn -main []
-  (let [input (get-lines "day-12.txt")
-       parsed (mapv parse input)]
-      (println (reduce + (map all-possibilities parsed))))
+  (let [input (get-lines "day-12-example.txt")
+        parsed (mapv parse input)
+        parsed-2 (part-2 parsed)]
+    (println (reduce + (map all-possibilities parsed)))
+    (println (reduce + (map all-possibilities parsed-2)))
+    )
   )
