@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-7
-  (:require [advent-of-code-2023.core :as helper]
+(ns advent-of-code.2023.day-7
+  (:require [advent-of-code.core :as helper]
             [clojure.string :as str]))
 
 (defn parse [lines] (str/split lines #"\s+"))
@@ -61,7 +61,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines "day-7.txt")
+  (let [lines (helper/get-lines-2023 "day-7.txt")
         input (map parse lines)]
     (println (reduce + (map-indexed #(* (inc %1) (:bid %2)) (sort-hands (eval-hands input)))))
     (println (reduce + (map-indexed #(* (inc %1) (:bid %2)) (sort-hands (eval-hands-2 input)))))

@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-4
-  (:require [advent-of-code-2023.core :as helper]
+(ns advent-of-code.2023.day-4
+  (:require [advent-of-code.core :as helper]
             [clojure.set :as set]
             [clojure.string :as str]))
 
@@ -37,7 +37,7 @@
 
 (defn parse [line] (map split-and-parse-int (str/split (str/trim (last (str/split line #":"))) #" \| ")))
 (defn -main []
-  (let [lines (helper/get-lines "day-4.txt") parsed-input (map parse lines)]
+  (let [lines (helper/get-lines-2023 "day-4.txt") parsed-input (map parse lines)]
     (println (reduce + (map #(get-points (set/intersection (first %) (last %))) parsed-input)))
     (println (reduce + (get-copies (map #(set/intersection (first %) (last %)) parsed-input))))
     )

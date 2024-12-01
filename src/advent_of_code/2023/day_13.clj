@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-13
-  (:use [advent-of-code-2023.core]))
+(ns advent-of-code.2023.day-13
+  (:use [advent-of-code.core]))
 
 (defn is-reflection? [[head & remaining] to-compare]
   (cond
@@ -34,7 +34,7 @@
       (recur (split-with-exclusive #(not-empty %) tail) (conj acc head)))))
 
 (defn -main []
-  (let [mirrors (parse (get-lines "day-13.txt"))]
+  (let [mirrors (parse (get-lines-2023 "day-13.txt"))]
     (reduce + (map summarize-reflection mirrors))
     )
   )

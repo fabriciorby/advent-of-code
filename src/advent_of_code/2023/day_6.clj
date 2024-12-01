@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-6
-  (:require [advent-of-code-2023.core :as helper]
+(ns advent-of-code.2023.day-6
+  (:require [advent-of-code.core :as helper]
             [clojure.string :as str]))
 
 (defn parse [lines]
@@ -25,7 +25,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines "day-6.txt")
+  (let [lines (helper/get-lines-2023 "day-6.txt")
         parsed-input (parse lines)
         parsed-input-2 (parse-2 lines)]
     (println (reduce * (map calculate (:times parsed-input) (:distances parsed-input))))

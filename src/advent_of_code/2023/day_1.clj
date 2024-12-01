@@ -1,6 +1,6 @@
-(ns advent-of-code-2023.days.day-1
+(ns advent-of-code.2023.day-1
   (:require [clojure.string :as str])
-  (:require [advent-of-code-2023.core :as helper])
+  (:require [advent-of-code.core :as helper])
   (:gen-class))
 
 (def digits-map
@@ -36,7 +36,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines "day-1.txt")]
+  (let [lines (helper/get-lines-2023 "day-1.txt")]
     (println (reduce + (map get-secret-number-1 lines)))
     (println (reduce + (map get-secret-number-2 lines)))
     )

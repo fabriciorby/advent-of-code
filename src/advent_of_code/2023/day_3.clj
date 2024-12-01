@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-3
-  (:require [advent-of-code-2023.core :as helper]
+(ns advent-of-code.2023.day-3
+  (:require [advent-of-code.core :as helper]
             [clojure.string :as str]))
 
 (defn parse [lines]
@@ -148,7 +148,7 @@
    ))
 
 (defn -main []
-  (let [lines (helper/get-lines "day-3.txt")]
+  (let [lines (helper/get-lines-2023 "day-3.txt")]
     (let [parsed-input (parse lines)]
       (println (calculate parsed-input))
       (println (calculate-gears parsed-input))))

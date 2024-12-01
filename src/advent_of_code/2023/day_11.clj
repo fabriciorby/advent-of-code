@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-11
-  (:use [advent-of-code-2023.core]))
+(ns advent-of-code.2023.day-11
+  (:use [advent-of-code.core]))
 
 (defn index-to-expand
   "Receives a matrix and returns a vector with indexes to expand"
@@ -40,7 +40,7 @@
   )
 
 (defn -main []
-  (let [input (get-lines "day-11.txt")
+  (let [input (get-lines-2023 "day-11.txt")
         i-map (to-array-2d input)
         expand-y (index-to-expand i-map)
         expand-x (index-to-expand (transpose i-map))

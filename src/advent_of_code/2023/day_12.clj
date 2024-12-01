@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-12
-  (:use [advent-of-code-2023.core])
+(ns advent-of-code.2023.day-12
+  (:use [advent-of-code.core])
   (:require [clojure.string :as str]))
 
 (defn parse [input]
@@ -39,7 +39,7 @@
 (alter-var-root #'count-possibilities memoize)              ;caralhoooowww
 
 (defn -main []
-  (let [input (get-lines "day-12.txt")
+  (let [input (get-lines-2023 "day-12.txt")
         parsed (mapv parse input)
         parsed-2 (part-2 parsed)]
     (println (reduce + (map count-possibilities parsed)))

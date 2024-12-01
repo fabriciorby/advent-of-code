@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-9
-  (:use [advent-of-code-2023.core])
+(ns advent-of-code.2023.day-9
+  (:use [advent-of-code.core])
   (:require [clojure.string :as str]))
 
 (defn parse [line]
@@ -30,15 +30,10 @@
   )
 
 (defn -main []
-  (let [lines (get-lines "day-9.txt")
+  (let [lines (get-lines-2023 "day-9.txt")
         input (map parse lines)]
     (println (reduce + (map #(generate-result (vector %) sum-future) input))) ;part 1
     (println (reduce + (mapv #(generate-result (vector %) sum-previous) input))) ;part 2
     (println (reduce + (mapv #(generate-result (vector (reverse %)) sum-future) input))) ;part 2 bonus
     )
   )
-
-
-
-
-

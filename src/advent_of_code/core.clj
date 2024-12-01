@@ -1,9 +1,9 @@
-(ns advent-of-code-2023.core
+(ns advent-of-code.core
   (:require [clojure.java.io :as io]))
 
 (comment "Parse helpers")
 
-(defn get-lines [filename]
+(defn get-lines-2023 [filename]
   (with-open [reader (io/reader (io/resource (str "inputs/" filename)))]
     (doall (line-seq reader)))
   )

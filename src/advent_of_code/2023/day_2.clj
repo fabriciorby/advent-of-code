@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day_2
-  (:require [advent-of-code-2023.core :as helper]
+(ns advent-of-code.2023.day_2
+  (:require [advent-of-code.core :as helper]
             [clojure.string :as str]))
 
 (defn generate-map [map set]
@@ -24,7 +24,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines "day-2.txt")]
+  (let [lines (helper/get-lines-2023 "day-2.txt")]
     (let [parsed-input (map parse lines)]
       (println (reduce + (map-indexed get-possible-games-indexes (map subtract-input parsed-input))))
       (println (reduce + (map get-power-of-maxes (map #(apply merge-with max %) parsed-input))))

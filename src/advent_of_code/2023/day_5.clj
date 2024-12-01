@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-5
-  (:require [advent-of-code-2023.core :as helper]
+(ns advent-of-code.2023.day-5
+  (:require [advent-of-code.core :as helper]
             [clojure.string :as str]))
 
 (defn split-by-space-and-parse [line]
@@ -92,7 +92,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines "day-5.txt")
+  (let [lines (helper/get-lines-2023 "day-5.txt")
         parsed-input (parsed-input lines)
         seeds (get parsed-input :seeds)
         seeds-v2 (partition 2 seeds)

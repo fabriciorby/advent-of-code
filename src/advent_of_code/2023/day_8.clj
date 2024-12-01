@@ -1,5 +1,5 @@
-(ns advent-of-code-2023.days.day-8
-  (:use [advent-of-code-2023.core])
+(ns advent-of-code.2023.day-8
+  (:use [advent-of-code.core])
   (:require [clojure.string :as str]))
 
 (defn parse [lines]
@@ -40,7 +40,7 @@
      )))
 
 (defn -main []
-  (let [lines (get-lines "day-8.txt")
+  (let [lines (get-lines-2023 "day-8.txt")
         input (parse lines)]
     (println (go-your-own-way input))
     (println (ghost-your-own-way input))
