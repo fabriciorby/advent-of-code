@@ -1,6 +1,6 @@
 (ns advent-of-code.2023.day-1
   (:require [clojure.string :as str])
-  (:require [advent-of-code.core :as helper])
+  (:require [advent-of-code.utils :as helper])
   (:gen-class))
 
 (def digits-map

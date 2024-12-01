@@ -1,5 +1,5 @@
 (ns advent-of-code.2023.day-13
-  (:use [advent-of-code.core]))
+  (:use [advent-of-code.utils]))
 
 (defn is-reflection? [[head & remaining] to-compare]
   (cond

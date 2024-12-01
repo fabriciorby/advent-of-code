@@ -1,5 +1,5 @@
 (ns advent-of-code.2023.day-10
-  (:use [advent-of-code.core]))
+  (:use [advent-of-code.utils]))
 
 (def directions-rules
   {

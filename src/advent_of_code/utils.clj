@@ -1,4 +1,4 @@
-(ns advent-of-code.core
+(ns advent-of-code.utils
   (:require [clojure.java.io :as io]))
 
 (comment "Parse helpers")

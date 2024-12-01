@@ -1,5 +1,5 @@
 (ns advent-of-code.2023.day-6
-  (:require [advent-of-code.core :as helper]
+  (:require [advent-of-code.utils :as helper]
             [clojure.string :as str]))
 
 (defn parse [lines]

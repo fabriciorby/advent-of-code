@@ -1,5 +1,5 @@
 (ns advent-of-code.2024.day-1
-  (:require [advent-of-code.core :as helper]
+  (:require [advent-of-code.2024.utils :as helper]
             [clojure.string :as str]))
 
 (def lines (helper/get-lines "2024/day-1.txt"))

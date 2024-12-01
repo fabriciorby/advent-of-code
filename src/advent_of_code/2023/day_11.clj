@@ -1,5 +1,5 @@
 (ns advent-of-code.2023.day-11
-  (:use [advent-of-code.core]))
+  (:use [advent-of-code.utils]))
 
 (defn index-to-expand
   "Receives a matrix and returns a vector with indexes to expand"
