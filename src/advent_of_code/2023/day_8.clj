@@ -40,7 +40,7 @@
      )))
 
 (defn -main []
-  (let [lines (get-lines-2023 "day-8.txt")
+  (let [lines (get-lines "2023/day-8.txt")
         input (parse lines)]
     (println (go-your-own-way input))
     (println (ghost-your-own-way input))

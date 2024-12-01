@@ -3,7 +3,7 @@
 
 (comment "Parse helpers")
 
-(defn get-lines-2023 [filename]
+(defn get-lines [filename]
   (with-open [reader (io/reader (io/resource (str "inputs/" filename)))]
     (doall (line-seq reader)))
   )

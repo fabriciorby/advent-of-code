@@ -124,7 +124,7 @@
 
 (defn -main []
   (time
-    (let [input (to-array-2d (get-lines-2023 "day-10.txt"))
+    (let [input (to-array-2d (get-lines "2023/day-10.txt"))
           [tubes tubes-set] (follow-the-tube input)
           all-dots (remove-and-get-garbage input tubes-set)]
       (println (/ (count tubes-set) 2))                     ;part 1

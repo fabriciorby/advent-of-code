@@ -24,7 +24,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines-2023 "day-2.txt")]
+  (let [lines (helper/get-lines "2023/day-2.txt")]
     (let [parsed-input (map parse lines)]
       (println (reduce + (map-indexed get-possible-games-indexes (map subtract-input parsed-input))))
       (println (reduce + (map get-power-of-maxes (map #(apply merge-with max %) parsed-input))))

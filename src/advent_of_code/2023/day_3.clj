@@ -148,7 +148,7 @@
    ))
 
 (defn -main []
-  (let [lines (helper/get-lines-2023 "day-3.txt")]
+  (let [lines (helper/get-lines "2023/day-3.txt")]
     (let [parsed-input (parse lines)]
       (println (calculate parsed-input))
       (println (calculate-gears parsed-input))))

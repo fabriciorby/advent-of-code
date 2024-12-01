@@ -34,7 +34,7 @@
       (recur (split-with-exclusive #(not-empty %) tail) (conj acc head)))))
 
 (defn -main []
-  (let [mirrors (parse (get-lines-2023 "day-13.txt"))]
+  (let [mirrors (parse (get-lines "2023/day-13.txt"))]
     (reduce + (map summarize-reflection mirrors))
     )
   )

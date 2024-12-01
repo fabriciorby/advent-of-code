@@ -36,7 +36,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines-2023 "day-1.txt")]
+  (let [lines (helper/get-lines "2023/day-1.txt")]
     (println (reduce + (map get-secret-number-1 lines)))
     (println (reduce + (map get-secret-number-2 lines)))
     )

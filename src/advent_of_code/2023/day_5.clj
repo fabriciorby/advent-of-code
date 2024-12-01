@@ -92,7 +92,7 @@
   )
 
 (defn -main []
-  (let [lines (helper/get-lines-2023 "day-5.txt")
+  (let [lines (helper/get-lines "2023/day-5.txt")
         parsed-input (parsed-input lines)
         seeds (get parsed-input :seeds)
         seeds-v2 (partition 2 seeds)

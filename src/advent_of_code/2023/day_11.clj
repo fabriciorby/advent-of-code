@@ -40,7 +40,7 @@
   )
 
 (defn -main []
-  (let [input (get-lines-2023 "day-11.txt")
+  (let [input (get-lines "2023/day-11.txt")
         i-map (to-array-2d input)
         expand-y (index-to-expand i-map)
         expand-x (index-to-expand (transpose i-map))
