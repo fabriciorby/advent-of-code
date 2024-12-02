@@ -4,6 +4,10 @@
 (comment "Parse helpers")
 
 (defn get-lines [filename]
-  (with-open [reader (io/reader (io/resource (str "inputs/" filename)))]
+  (with-open [reader (io/reader (str "resources/inputs/" filename))]
     (doall (line-seq reader)))
   )
+
+(defn print-return
+  "Prints and return value"
+  ([item] (doto item prn)))
