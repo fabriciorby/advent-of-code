@@ -3,6 +3,7 @@
             [advent-of-code.2024.utils :as u]))
 
 (declare safe-dump)
+(def lines (u/get-lines "2024/day-2.txt"))
 (defn parse-to-int-list [line] (map read-string (str/split line #" ")))
 (defn parse [lines] (map parse-to-int-list lines))
 (defn is-in-limit? [x y] (and (> (abs (- x y)) 0) (<= (abs (- x y)) 3)))
@@ -22,7 +23,6 @@
                            (is-safe? f x (first more))))))))
 
 (defn -main []
-  (def lines (u/get-lines "2024/day-2.txt"))
   (->> (parse lines)
        (map #(or (safe > %) (safe < %)))
        (filter true?) (count)
