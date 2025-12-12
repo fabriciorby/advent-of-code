@@ -24,3 +24,5 @@
   (-> lines (parse) (walk) (println))
   (-> lines (parse) (walk-and-check) (println)))
 
+(helper/trace-time #'-main)
+

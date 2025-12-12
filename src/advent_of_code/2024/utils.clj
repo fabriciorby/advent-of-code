@@ -1,6 +1,16 @@
 (ns advent-of-code.2024.utils
   (:require [clojure.java.io :as io]))
 
+;; A safer utility to trace execution time
+(defn trace-time [v]
+  (alter-var-root v
+                  (fn [f]
+                    (fn [& args]
+                      (time (apply f args))))))
+
+;; Usage
+;(trace-time #'walk)
+
 (comment "Parse helpers")
 (defn get-lines [filename]
   (with-open [reader (io/reader (str "resources/inputs/" filename))]
@@ -13,6 +23,36 @@
 
 (defn split-with-exclusive [pred coll]
   [(take-while pred coll) (rest (drop-while pred coll))])
+
+;; The following split-by builds on top of split-with. Instead of
+;; splitting only the first time pred returns false, it splits (lazily)
+;; every time it turns from true to false.
+
+(defn split-by [pred coll]
+  (lazy-seq
+    (when-let [s (seq coll)]
+      (let [[xs ys] (split-with pred s)]
+        (if (seq xs)
+          (cons xs (split-by pred ys))
+          (let [!pred (complement pred)
+                skip (take-while !pred s)
+                others (drop-while !pred s)
+                [xs ys] (split-with pred others)]
+            (cons (concat skip xs)
+                  (split-by pred ys))))))))
+
+(defn split-by-exclusive [pred coll]
+  (lazy-seq
+    (when-let [s (seq coll)]
+      (let [[xs ys] (split-with pred s)]
+        (if (seq xs)
+          (cons xs (split-by-exclusive pred ys))
+          (let [!pred (complement pred)
+                skip (take-while !pred s)
+                others (rest (drop-while !pred s))
+                [xs ys] (split-with pred others)]
+            (cons (concat skip xs)
+                  (split-by-exclusive pred ys))))))))
 
 (comment "Matrix stuff")
 
